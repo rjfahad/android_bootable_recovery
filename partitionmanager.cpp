@@ -2124,6 +2124,20 @@ int TWPartitionManager::Decrypt_Device(string Password, int user_id) {
 		if (!Mount_By_Path("/data", true)) // /data has to be mounted for FBE
 			return -1;
 
+		// Reload DE keys — they may have been dropped from the kernel keyring
+		// when partitions were unmounted earlier during TWRP initialization.
+		// Without DE keys, fscrypt filename encryption prevents stat() on
+		// paths like /data/system_de/0/spblob/ which causes Get_Password_Type
+		// to return 0 and decryption to fail.
+		int de_retry = 3;
+		while (!android::keystore::Decrypt_DE() && --de_retry)
+			usleep(5000);
+		if (de_retry > 0) {
+			LOGINFO("DE keys reloaded successfully for decrypt\n");
+		} else {
+			LOGERR("Failed to reload DE keys for decrypt\n");
+		}
+
 		bool user_need_decrypt = false;
 		std::vector<users_struct>::iterator iter;
 		for (iter = Users_List.begin(); iter != Users_List.end(); iter++) {

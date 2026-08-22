@@ -2137,7 +2137,8 @@ int TWPartitionManager::Decrypt_Device(string Password, int user_id) {
 		}
 
 		int retry_count = 10;
-		while (!TWFunc::Path_Exists("/data/system/users/gatekeeper.password.key") && --retry_count)
+		while (!TWFunc::Path_Exists("/data/system/users/gatekeeper.password.key") &&
+		       !TWFunc::Path_Exists("/data/system_de/0/spblob/") && --retry_count)
 			usleep(2000); // A small sleep is needed after mounting /data to ensure reliable decrypt...maybe because of DE?
 		gui_msg(Msg("decrypting_user_fbe=Attempting to decrypt FBE for user {1}...")(user_id));
 		if (android::keystore::Decrypt_User(user_id, Password)) {

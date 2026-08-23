@@ -2138,6 +2138,12 @@ int TWPartitionManager::Decrypt_Device(string Password, int user_id) {
 			LOGERR("Failed to reload DE keys for decrypt\n");
 		}
 
+		// Refresh the keystore2 database copy that the recovery keystore2
+		// daemon reads (/tmp/misc/keystore). The early copy made at TWRP
+		// startup usually runs before /data is mounted and produces an
+		// empty file, so redo it now that /data is definitely up.
+		android::keystore::copySqliteDb();
+
 		bool user_need_decrypt = false;
 		std::vector<users_struct>::iterator iter;
 		for (iter = Users_List.begin(); iter != Users_List.end(); iter++) {

@@ -63,3 +63,13 @@ bool isExtnMatched(vector<string> extn,string fileName){
     }
     return false;
 }
+
+bool hasExtn(const vector<string>& extn,const string& target){
+    vector<string>::const_iterator ptr;
+    for(ptr=extn.begin();ptr!=extn.end();ptr++){
+        if(minUtils::compare(*ptr,target)){
+            return true;
+        }
+    }
+    return false;
+}

@@ -42,16 +42,19 @@
 			</button>
 
 			<action>
-				<condition var1="tw_crypto_pwtype" op="!=" var2="0"/>
-				<actions>
-					<action function="page">restore_keymaster</action>
-				</actions>
-			</action>
-			<action>
+				<condition var1="tw_crypto_pwtype" op="=" var2="0"/>
 				<condition var1="tw_restore" op="modified"/>
 				<actions>
 					<action function="readBackup"/>
 					<action function="page">restore_read</action>
+				</actions>
+			</action>
+			<action>
+				<condition var1="tw_crypto_pwtype" op="!=" var2="0"/>
+				<condition var1="tw_restore" op="modified"/>
+				<actions>
+					<action function="readBackup"/>
+					<action function="page">restore_keymaster</action>
 				</actions>
 			</action>
 			<action>
@@ -468,7 +471,7 @@
 			<button>
 				<placement x="860" y="%rndPos105%"/>
 				<image resource="c_ok"/>
-				<action function="page">restore_force</action>
+				<action function="page">restore_read</action>
 			</button>
 
 			<action>

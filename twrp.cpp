@@ -519,7 +519,7 @@ int main(int argc, char **argv) {
 
 	// Launch the main GUI
 	PageManager::RequestCustomReload("main");
-	gui_startPage("dasboard", 1, 0);
+	gui_startPage("main2", 1, 0);
 	//gui_start();
 	delete adb_bu_fifo;
 	TWFunc::Update_Intent_File(startup.Get_Intent());
